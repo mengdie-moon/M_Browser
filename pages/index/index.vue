@@ -15,7 +15,8 @@
 				<image src="../../static/index/logo.png" mode="aspectFill"></image>
 			</view>
 			<view class="search-box">
-				<u-input class="search" placeholder="搜索或输入网址" border="none" v-model="searchText" @confirm="handleSearch" :animation="true" :clearabled="false">
+				<u-input class="search" placeholder="搜索或输入网址" border="none" v-model="searchText" @confirm="handleSearch"
+					:animation="true" :clearabled="false">
 					<template slot="prefix">
 						<u-icon name="search" size="45" color="#999"></u-icon>
 					</template>
@@ -23,15 +24,7 @@
 			</view>
 		</view>
 
-		<view class="footer">
-			<view class="toolbar">
-				<u-icon class="toolbarIcon" name="arrow-left" size="45"></u-icon>
-				<u-icon class="toolbarIcon" name="arrow-right" size="45" color="#ccc"></u-icon>
-				<u-icon class="toolbarIcon" name="home" size="45"></u-icon>
-				<u-icon class="toolbarIcon" name="order" size="45"></u-icon>
-				<u-icon class="toolbarIcon" name="list" size="45"></u-icon>
-			</view>
-		</view>
+		<BottomBarNav />
 	</view>
 </template>
 
@@ -155,6 +148,7 @@
 		justify-content: center;
 		align-items: center;
 		padding: 0 64rpx;
+		margin-bottom: 30%;
 	}
 
 	.logo {
@@ -169,9 +163,9 @@
 
 	.search-box {
 		width: 100%;
-		height: 80rpx;
-		border-radius: 40rpx;
-		border: 2px solid #dddddd;
+		height: 90rpx;
+		border-radius: 50rpx;
+		border: 1px solid #dddddd;
 		padding: 0 32rpx;
 		box-sizing: border-box;
 		display: flex;
@@ -190,36 +184,10 @@
 			justify-content: space-around;
 			align-items: center;
 			padding: 0 64rpx;
-
-			.toolbarIcon {
-				position: relative;
-				padding: 6px;
-				border-radius: 4px;
-				outline: 0;
-				border: 0;
-				cursor: pointer;
-				overflow: hidden;
-				transition: background-color .25s;
-
-				&::after {
-					content: '';
-					position: absolute;
-					top: 0;
-					left: 0;
-					right: 0;
-					bottom: 0;
-					background-image: radial-gradient(circle, #ccc 10%, transparent 10.1%);
-					transform: scale(10);
-					opacity: 0;
-					transition: all .6s;
-				}
-
-				&:active::after {
-					transform: scale(0);
-					opacity: .5;
-					transition: 0s;
-				}
-			}
 		}
+	}
+	
+	.footer{
+		box-shadow: none;
 	}
 </style>
