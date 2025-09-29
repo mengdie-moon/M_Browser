@@ -1,0 +1,274 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #fff;
+}
+
+/* 首页样式 */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    box-sizing: border-box;
+}
+
+.header-left,
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.header-left .icon,
+.header-right .icon {
+    font-size: 22px;
+    padding: 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color .25s;
+}
+
+.header-left .icon:active,
+.header-right .icon:active {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.header-text {
+    font-size: 16px;
+    font-weight: 450;
+    margin-left: 8px;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 32px;
+    margin-bottom: 15%;
+}
+
+.logo {
+    width: 175px;
+    height: 175px;
+    margin-bottom: 20px;
+}
+
+.logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.search-box {
+    width: 100%;
+    height: 45px;
+    border-radius: 25px;
+    border: 1px solid #dddddd;
+    padding: 0 16px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+}
+
+.search-box .icon {
+    font-size: 22px;
+    color: #999;
+    margin-right: 8px;
+}
+
+#home-search-input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    padding: 0;
+    margin-right: 8px;
+}
+
+#search-engine-select {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* 浏览器页面样式 */
+.browser-header {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ccc;
+}
+
+.browser-header button {
+    padding: 6px 10px;
+    border: none;
+    background-color: #e9e9e9;
+    color: #333;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.browser-header button:hover {
+    background-color: #d0d0d0;
+}
+
+.browser-url-input {
+    flex-grow: 1;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 0 8px;
+}
+
+.webview-container {
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+webview {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* 标签页样式 */
+.tab-bar {
+    display: flex;
+    background-color: #e0e0e0;
+    border-bottom: 1px solid #ccc;
+    padding: 0 5px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.tab-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    margin-right: 5px;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    border-radius: 5px 5px 0 0;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    font-size: 14px;
+    position: relative;
+}
+
+.tab-button.active {
+    background-color: #fff;
+    border-color: #007bff;
+    border-bottom-color: #fff;
+    z-index: 1;
+}
+
+.tab-title {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 8px;
+}
+
+.close-tab-button {
+    font-size: 16px;
+    font-weight: bold;
+    color: #888;
+    margin-left: 5px;
+    cursor: pointer;
+    padding: 0 3px;
+}
+
+.close-tab-button:hover {
+    color: #333;
+    background-color: #ddd;
+    border-radius: 3px;
+}
+
+#new-tab-button {
+    padding: 8px 12px;
+    margin-left: 5px;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    border-radius: 5px 5px 0 0;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#new-tab-button:hover {
+    background-color: #e0e0e0;
+}
+
+.webview-views {
+    flex-grow: 1;
+    position: relative;
+}
+
+.webview-views webview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* 底部导航栏样式 */
+.footer {
+    padding: 8px 0; /* 16rpx 转换为 px */
+    background: #fff;
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.05); /* 0 -2rpx 10rpx 转换为 px */
+    position: relative;
+    z-index: 100;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 32px; /* 0 64rpx 转换为 px */
+}
+
+.toolbarIcon {
+    position: relative;
+    font-size: 22px; /* 45rpx 转换为 px */
+    padding: 3px; /* 6rpx 转换为 px */
+    border-radius: 4px;
+    outline: 0;
+    border: 0;
+    cursor: pointer;
+    overflow: hidden;
+    transition: background-color .25s;
+    color: #333; /* 默认颜色 */
+}
+
+.toolbarIcon:active {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.toolbarIcon.disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
