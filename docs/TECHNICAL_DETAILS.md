@@ -10,14 +10,14 @@
 ## 2. 项目结构
 
 ```
-D:/GitHub/M_browser/
+/
 ├───App.vue                 # 应用的根组件
 ├───index.html              # H5 平台的入口文件
 ├───main.js                 # 项目入口文件，初始化 Vue 实例和全局配置
 ├───manifest.json           # Uni-app 项目的配置文件，用于配置应用名称、图标、权限等
 ├───pages.json              # Uni-app 页面路由配置和导航栏样式配置
 ├───uni.promisify.adaptor.js # Uni-app API Promise 化适配文件
-��───uni.scss                # 全局 SCSS 样式文件
+├───uni.scss                # 全局 SCSS 样式文件
 ├───components/             # 自定义组件目录
 │   ├───BottomBar/          # 底部导航栏组件
 │   │   └───BottomBar.vue
