@@ -22,7 +22,7 @@ let nextTabId = 0; // 用于生成新的标签页 ID
 
 // 获取当前文件所在的目录，用于构建本地文件路径
 const currentDir = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
-const webviewHomePath = `${currentDir}/webview_home.html`;
+const webviewHomePath = `file://${currentDir}/webview_home.html`;
 
 function renderHomePage() {
     const appDiv = document.getElementById('app');
@@ -85,16 +85,21 @@ function renderBrowserPage(initialUrl = webviewHomePath) {
     const appDiv = document.getElementById('app');
     appDiv.innerHTML = `
         <div class="container">
-            <div class="browser-header">
-                <button id="browser-home-button">首页</button>
-                <button id="browser-back-button">&#9664;</button>
-                <button id="browser-forward-button">&#9654;</button>
-                <button id="browser-refresh-button">&#8635;</button>
-                <input type="text" id="browser-url-input" class="browser-url-input" />
-                <button id="browser-go-button">前往</button>
+            <div class="browser-top-bar">
+                <div class="browser-nav-controls">
+                    <span class="nav-icon" id="browser-home-button" title="首页">&#127963;</span>
+                    <span class="nav-icon" id="browser-back-button" title="后退">&#9664;</span>
+                    <span class="nav-icon" id="browser-forward-button" title="前进">&#9654;</span>
+                    <span class="nav-icon" id="browser-refresh-button" title="刷新">&#8635;</span>
+                </div>
+                <div class="browser-url-bar">
+                    <input type="text" id="browser-url-input" placeholder="搜索或输入网址" />
+                    <span class="nav-icon" id="browser-go-button" title="前往">&#10140;</span>
+                </div>
             </div>
             <div class="tab-bar" id="tab-bar">
-                <button id="new-tab-button">+</button>
+                <!-- 标签页将动态添加 -->
+                <span class="tab-button new-tab-button" id="new-tab-button" title="新标签页">+</span>
             </div>
             <div class="webview-views" id="webview-views">
                 <!-- webview 元素将动态添加到这里 -->
@@ -168,7 +173,9 @@ function renderBrowserPage(initialUrl = webviewHomePath) {
 
     // 如果没有标签页，则添加一个默认标签页
     if (tabs.length === 0) {
-        addTab(initialUrl, true);
+        // 如果是默认主页，则在地址栏显示 about:blank
+        const urlToDisplay = (initialUrl === webviewHomePath) ? 'about:blank' : initialUrl;
+        addTab(urlToDisplay, true);
     } else {
         // 重新渲染时，确保激活的标签页和 webview 是正确的
         updateBrowserUI();
@@ -241,8 +248,20 @@ function updateNavigationButtonStates(currentPage) {
             const canGoBack = activeWebview.canGoBack();
             const canGoForward = activeWebview.canGoForward();
 
-            if (browserBackButton) browserBackButton.disabled = !canGoBack;
-            if (browserForwardButton) browserForwardButton.disabled = !canGoForward;
+            if (browserBackButton) {
+                if (!canGoBack) {
+                    browserBackButton.classList.add('disabled');
+                } else {
+                    browserBackButton.classList.remove('disabled');
+                }
+            }
+            if (browserForwardButton) {
+                if (!canGoForward) {
+                    browserForwardButton.classList.add('disabled');
+                } else {
+                    browserForwardButton.classList.remove('disabled');
+                }
+            }
         } else {
             if (browserBackButton) browserBackButton.disabled = true;
             if (browserForwardButton) browserForwardButton.disabled = true;
@@ -279,9 +298,17 @@ function handleSearch(query) {
 
 function addTab(url, isActive = true) {
     const tabId = nextTabId++;
+    let actualUrl = url;
+    let displayUrl = url;
+
+    if (url === 'about:blank') {
+        actualUrl = webviewHomePath;
+        displayUrl = 'about:blank';
+    }
+
     const newTab = {
         id: tabId,
-        url: url,
+        url: displayUrl, // 存储 about:blank
         title: '新标签页',
         isActive: isActive
     };
@@ -290,7 +317,7 @@ function addTab(url, isActive = true) {
     const webviewViews = document.getElementById('webview-views');
     const webview = document.createElement('webview');
     webview.id = `webview-${tabId}`;
-    webview.src = url;
+    webview.src = actualUrl; // 实际加载 webviewHomePath
     webview.style.width = '100%';
     webview.style.height = '100%';
     webview.style.border = 'none';
@@ -300,13 +327,19 @@ function addTab(url, isActive = true) {
     // 监听 webview 事件
     webview.addEventListener('dom-ready', () => {
         if (newTab.id === activeTabId) {
-            document.getElementById('browser-url-input').value = webview.getURL();
+            document.getElementById('browser-url-input').value = newTab.url; // 显示 about:blank
         }
         updateNavigationButtonStates('browser'); // 更新导航按钮状态
     });
 
     webview.addEventListener('did-navigate', () => {
-        newTab.url = webview.getURL();
+        // 如果实际导航到了主页，但我们想显示 about:blank
+        if (webview.getURL() === webviewHomePath && newTab.url === 'about:blank') {
+            newTab.url = 'about:blank';
+        } else {
+            newTab.url = webview.getURL();
+        }
+
         if (newTab.id === activeTabId) {
             document.getElementById('browser-url-input').value = newTab.url;
         }
@@ -315,7 +348,13 @@ function addTab(url, isActive = true) {
     });
 
     webview.addEventListener('did-navigate-in-page', () => {
-        newTab.url = webview.getURL();
+        // 如果实际导航到了主页，但我们想显示 about:blank
+        if (webview.getURL() === webviewHomePath && newTab.url === 'about:blank') {
+            newTab.url = 'about:blank';
+        } else {
+            newTab.url = webview.getURL();
+        }
+
         if (newTab.id === activeTabId) {
             document.getElementById('browser-url-input').value = newTab.url;
         }
