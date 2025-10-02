@@ -1,0 +1,332 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #fff;
+}
+
+/* 首页样式 */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    box-sizing: border-box;
+}
+
+.header-left,
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.header-left .icon,
+.header-right .icon {
+    font-size: 22px;
+    padding: 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color .25s;
+}
+
+.header-left .icon:active,
+.header-right .icon:active {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.header-text {
+    font-size: 16px;
+    font-weight: 450;
+    margin-left: 8px;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 32px;
+    margin-bottom: 15%;
+}
+
+.logo {
+    width: 175px;
+    height: 175px;
+    margin-bottom: 20px;
+}
+
+.logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.search-box {
+    width: 100%;
+    height: 45px;
+    border-radius: 25px;
+    border: 1px solid #dddddd;
+    padding: 0 16px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+}
+
+.search-box .icon {
+    font-size: 22px;
+    color: #999;
+    margin-right: 8px;
+}
+
+#home-search-input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    padding: 0;
+    margin-right: 8px;
+}
+
+#search-engine-select {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* 浏览器页面样式 */
+.browser-top-bar {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #eee;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    gap: 10px;
+}
+
+.browser-nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.browser-url-bar {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 5px 15px;
+    margin: 0 10px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.nav-icon {
+    font-size: 20px;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px; /* 确保圆形 */
+    height: 20px; /* 确保圆形 */
+}
+
+.nav-icon:hover {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.nav-icon.disabled {
+    color: #bbb;
+    cursor: not-allowed;
+    background-color: transparent;
+}
+
+.nav-icon.disabled:hover {
+    background-color: transparent;
+    color: #bbb;
+}
+
+
+.browser-url-input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    font-size: 16px; /* 增大字体 */
+    padding: 0 5px; /* 增加水平内边距 */
+    background: transparent;
+    color: #333;
+}
+
+.webview-container {
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+webview {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* 标签页样式 */
+.tab-bar {
+    display: flex;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ddd;
+    padding: 0 10px;
+    overflow-x: auto;
+    white-space: nowrap;
+    align-items: flex-end; /* 使标签页底部对齐 */
+    height: 40px; /* 固定标签栏高度 */
+    box-sizing: border-box;
+}
+
+.tab-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 15px;
+    margin-right: 5px;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    background-color: #e9e9e9;
+    cursor: pointer;
+    font-size: 14px;
+    position: relative;
+    top: 1px; /* 视觉上与底部对齐 */
+    transition: background-color 0.2s, border-color 0.2s;
+    height: 32px; /* 标签页高度 */
+    box-sizing: border-box;
+}
+
+.tab-button:hover {
+    background-color: #e0e0e0;
+}
+
+.tab-button.active {
+    background-color: #fff;
+    border-color: #ccc;
+    border-bottom-color: #fff;
+    z-index: 1;
+    top: 0; /* 激活状态下与底部齐平 */
+}
+
+.tab-title {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 8px;
+}
+
+.close-tab-button {
+    font-size: 16px;
+    font-weight: bold;
+    color: #888;
+    margin-left: 5px;
+    cursor: pointer;
+    padding: 0 3px;
+}
+
+.close-tab-button:hover {
+    color: #333;
+    background-color: #ddd;
+    border-radius: 3px;
+}
+
+.new-tab-button {
+    font-size: 20px;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px; /* 确保圆形 */
+    height: 20px; /* 确保圆形 */
+    margin-left: 10px;
+    margin-bottom: 4px; /* 与标签页底部对齐 */
+    background-color: #e9e9e9;
+    border: none;
+}
+
+.new-tab-button:hover {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.webview-views {
+    flex-grow: 1;
+    position: relative;
+}
+
+.webview-views webview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* 底部导航栏样式 */
+.footer {
+    padding: 8px 0; /* 16rpx 转换为 px */
+    background: #fff;
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.05); /* 0 -2rpx 10rpx 转换为 px */
+    position: relative;
+    z-index: 100;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 32px; /* 0 64rpx 转换为 px */
+}
+
+.toolbarIcon {
+    position: relative;
+    font-size: 22px; /* 45rpx 转换为 px */
+    padding: 3px; /* 6rpx 转换为 px */
+    border-radius: 4px;
+    outline: 0;
+    border: 0;
+    cursor: pointer;
+    overflow: hidden;
+    transition: background-color .25s;
+    color: #333; /* 默认颜色 */
+}
+
+.toolbarIcon:active {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.toolbarIcon.disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
