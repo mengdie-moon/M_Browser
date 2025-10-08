@@ -6,7 +6,7 @@
 				<u-icon class="HeaderLeftSearch" name="search" size="45"></u-icon>
 				<text class="header-text">主页</text>
 			</view>
-			<view class="header-right">
+			<view class="header-right" @tap="toScan">
 				<u-icon name="scan" size="45"></u-icon>
 			</view>
 		</view>
@@ -15,8 +15,7 @@
 				<image src="../../static/index/logo.png" mode="aspectFill"></image>
 			</view>
 			<view class="search-box">
-				<u-input class="search" placeholder="搜索或输入网址" border="none" v-model="searchText" @confirm="handleSearch"
-					:animation="true" :clearabled="false">
+				<u-input class="search" placeholder="搜索或输入网址" border="none" v-model="searchText" @confirm="handleSearch" :clearabled="false">
 					<template slot="prefix">
 						<u-icon name="search" size="45" color="#999"></u-icon>
 					</template>
@@ -40,16 +39,27 @@
 			const systemInfo = uni.getSystemInfoSync();
 			this.statusBarHeight = systemInfo.statusBarHeight;
 			if (options?.backQuery) {
-				this.searchText = decodeURIComponent(options.backQuery)
+				this.searchText = decodeURIComponent(options.backQuery);
 			}
+		},
+		onShow() {
+			this.$nextTick(() => {
+				const pages = getCurrentPages();
+				const page = pages[pages.length - 1];
+				const wv = page.$getAppWebview().children()[0];
+				if (wv) this.bindWebviewEvents(wv);
+			});
 		},
 		methods: {
 			handleSearch() {
-				if (this.searchText) {
-					uni.navigateTo({
-						url: `/pages/searchPage/searchPage?query=${encodeURIComponent(this.searchText)}`
-					})
-				}
+				uni.navigateTo({
+					url: `/pages/searchPage/searchPage?query=${encodeURIComponent(this.searchText)}`
+				});
+			},
+			toScan(){
+				uni.navigateTo({
+					url: '/pages/scan/scan'
+				})
 			}
 		}
 	}
@@ -186,8 +196,9 @@
 			padding: 0 64rpx;
 		}
 	}
-	
-	.footer{
+
+	.footer {
 		box-shadow: none;
 	}
+
 </style>

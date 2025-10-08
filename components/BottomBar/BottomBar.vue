@@ -19,42 +19,51 @@
 			return {
 				canBack: false,
 				canForward: false,
+				wv: null,
 			}
 		},
+		// #ifdef APP-PLUS
 		mounted() {
-			// #ifdef APP-PLUS
-			this.$nextTick(() => {
-				const pages = getCurrentPages()
-				const self = pages[pages.length - 1].$getAppWebview()
-				this.wv = self.children()[0]
-				if (this.wv) {
-					this.wv.addEventListener('loaded', this.updateState)
-					this.updateState()
-				}
-			})
-			// #endif
-
-			// #ifndef APP-PLUS
-			this.canBack = getCurrentPages().length > 1
-			// #endif
+			this.$nextTick(() => this.waitWebview())
 		},
 		beforeDestroy() {
-			// #ifdef APP-PLUS
-			if (this.wv) this.wv.removeEventListener('loaded', this.updateState)
-			// #endif
+			if (this.wv) {
+				this.wv.removeEventListener('loaded', this.updateState)
+				this.wv.removeEventListener('load', this.updateState)
+			}
 		},
+		// #endif
 		methods: {
-			updateState() {
-				// #ifdef APP-PLUS
-				if (this.wv) {
-					this.canBack = this.wv.canBack()
-					this.canForward = this.wv.canForward()
-				}
-				// #endif
+			waitWebview() {
+				let t = 0
+				const poll = setInterval(() => {
+					const pages = getCurrentPages()
+					const page = pages[pages.length - 1]
+					const wv = page.$getAppWebview().children()[0]
+					if (wv || t++ > 100) { // 20 ms * 100 = 2 s
+						if (wv) this.setWebview(wv)
+						clearInterval(poll)
+					}
+				}, 20)
 			},
+			
+			setWebview(wv) {
+				if (!wv) return
+				this.wv = wv
+				wv.addEventListener('loaded', this.updateState)
+				wv.addEventListener('load', this.updateState)
+				this.updateState()
+			},
+
+			updateState() {
+				if (!this.wv) return
+				this.canBack = this.wv.canBack()
+				this.canForward = this.wv.canForward()
+			},
+
 			goBack() {
 				// #ifdef APP-PLUS
-				if (this.canBack) this.wv.back()
+				if (this.wv && this.canBack) this.wv.back()
 				// #endif
 				// #ifndef APP-PLUS
 				uni.navigateBack()
@@ -62,7 +71,7 @@
 			},
 			goForward() {
 				// #ifdef APP-PLUS
-				if (this.canForward) this.wv.forward()
+				if (this.wv && this.canForward) this.wv.forward()
 				// #endif
 			},
 			goHome() {

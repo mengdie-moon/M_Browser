@@ -12,6 +12,13 @@
 			{
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path" : "pages/scan/scan",
+			"style" : 
+			{
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"globalStyle": {
